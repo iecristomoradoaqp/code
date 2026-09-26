@@ -11,13 +11,13 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Chart.js for Statistics -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
-  <!-- Canvas Confetti for Celebration Animation -->
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
-  <!-- Custom Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script>
@@ -47,10 +47,6 @@
   </script>
 
   <style>
-    .glass-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-    }
     .candidate-card {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -72,29 +68,23 @@
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 font-sans flex flex-col justify-between selection:bg-brand-500 selection:text-white">
 
-  <!-- Encabezado / Navbar -->
-  <header class="bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-700 text-white shadow-lg sticky top-0 z-40">
+  <header class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-950 text-white shadow-lg sticky top-0 z-40 border-b-4 border-amber-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('welcome')">
-        <div class="bg-white/10 p-2 rounded-xl backdrop-blur-md">
-          <i class="fa-solid me-1 fa-check-to-slot text-2xl text-amber-300"></i>
+        <div class="bg-white p-1 rounded-full shadow-inner flex items-center justify-center w-11 h-11 border-2 border-amber-400 overflow-hidden">
+          <img src="insignia sin fondo.jpg" alt="Insignia I.E. Cristo Morado" class="h-9 w-auto object-contain" onerror="handleImgError(this, 'school')">
         </div>
         <div>
-          <h1 class="font-display font-bold text-lg sm:text-xl tracking-wide leading-tight">I.E. Cristo Morado</h1>
-          <p class="text-xs text-brand-100 hidden sm:block">Elecciones Escolares Municipales 2026</p>
+          <h1 class="font-display font-bold text-lg sm:text-xl tracking-wide leading-tight text-white">I.E. Cristo Morado</h1>
+          <p class="text-xs text-amber-300 font-medium hidden sm:block">Elecciones Escolares Municipales 2026</p>
         </div>
       </div>
 
-      <!-- Indicador de Estado / Switch Vista Admin -->
+      <!-- Acceso Admin -->
       <div class="flex items-center space-x-3">
-        <span id="systemStatusBadge" class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-100 border border-emerald-400/30">
-          <span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          Sistema Activo
-        </span>
-
-        <button onclick="openAdminAuthModal()" class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium py-1.5 px-3 rounded-lg border border-white/20 transition-all duration-200">
+        <button onclick="openAdminAuthModal()" class="flex items-center space-x-2 bg-indigo-800/80 hover:bg-indigo-700 text-amber-300 hover:text-white text-xs sm:text-sm font-semibold py-1.5 px-3 rounded-lg border border-indigo-600 transition">
           <i class="fa-solid fa-user-shield"></i>
-          <span class="hidden md:inline">Panel Docente / Admin</span>
+          <span class="hidden md:inline">Panel Docente</span>
         </button>
       </div>
     </div>
@@ -102,138 +92,134 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
 
-    <!-- ==================== VISTA 1: BIENVENIDA E INGRESO VOTANTE ==================== -->
-    <section id="welcomeSection" class="max-w-xl mx-auto my-8">
-      <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200/80">
-        <div class="bg-gradient-to-r from-brand-600 to-indigo-600 p-6 text-white text-center relative overflow-hidden">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-          <i class="fa-solid fa-vote-yea text-5xl mb-3 text-amber-300"></i>
-          <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold tracking-wider uppercase mb-1">I.E. Cristo Morado</span>
-          <h2 class="font-display font-bold text-2xl sm:text-3xl">Elecciones Escolares Municipales 2026</h2>
-          <p class="text-brand-100 text-sm mt-1">Ingresa con tu código o DNI de estudiante para ejercer tu voto</p>
+    <section id="welcomeSection" class="max-w-xl mx-auto my-6">
+      <div id="globalAlert" class="hidden mb-4 p-4 rounded-xl bg-rose-100 border-l-4 border-rose-500 text-rose-800 font-medium text-sm shadow-sm">
+        <div class="flex items-center">
+          <i class="fa-solid fa-triangle-exclamation text-lg mr-2"></i>
+          <span id="globalAlertText">Mensaje de alerta</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+        <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 p-6 text-white text-center relative overflow-hidden">
+          <div class="w-20 h-20 bg-white p-1 rounded-full shadow-lg flex items-center justify-center mx-auto mb-3 border-2 border-amber-400 overflow-hidden">
+            <img src="insignia sin fondo.jpg" alt="Insignia I.E. Cristo Morado" class="h-16 w-auto object-contain" onerror="handleImgError(this, 'id-card')">
+          </div>
+          <span class="inline-block px-3 py-1 bg-amber-400 text-indigo-950 rounded-full text-xs font-bold uppercase tracking-wider mb-2">I.E. Cristo Morado</span>
+          <h2 class="font-display font-bold text-2xl sm:text-3xl text-amber-300">Elecciones Escolares Municipales 2026</h2>
+          <p class="text-indigo-100 text-xs sm:text-sm mt-1">Ingresa con tu DNI o Código escolar para acceder a la cabina digital</p>
         </div>
 
         <form id="loginForm" onsubmit="handleVoterLogin(event)" class="p-6 sm:p-8 space-y-5">
           <div>
-            <label for="voterId" class="block text-sm font-semibold text-slate-700 mb-1">
-              DNI o Código de Estudiante
+            <label for="voterId" class="block text-sm font-bold text-slate-700 mb-1">
+              DNI o Código del Estudiante
             </label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <i class="fa-solid fa-id-card"></i>
               </div>
-              <input type="text" id="voterId" required maxlength="12" placeholder="Ej. 74839201 o EST-2026"
-                class="block w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-800 font-medium tracking-wide">
+              <input type="text" id="voterId" required maxlength="12" placeholder="Ingresa tu DNI o código"
+                class="block w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800 font-mono text-lg font-bold tracking-wider outline-none">
             </div>
             <p class="text-xs text-slate-500 mt-1.5 flex items-center">
-              <i class="fa-solid fa-shield-halved text-brand-500 mr-1"></i>
-              Tu voto es secreto y personal. Solo puedes votar una vez.
+              <i class="fa-solid fa-shield-halved text-indigo-600 mr-1"></i>
+              Tu voto es personal y secreto. Solo se permite un voto por estudiante.
             </p>
           </div>
 
-          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-semibold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 text-base">
-            <span>Ingresar a Cabina Digital</span>
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center space-x-2 text-base">
+            <span>Ingresar a Votar</span>
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </form>
       </div>
 
-      <!-- Información del Evento -->
-      <div class="mt-6 text-center text-slate-500 text-xs sm:text-sm">
-        <p><i class="fa-solid fa-graduation-cap text-brand-600 mr-1"></i> I.E. Cristo Morado &bull; Elecciones Escolares Municipales 2026</p>
-        <p class="mt-0.5">Comité Electoral Escolar 2026 &bull; Garantizando democracia e inclusión</p>
+      <div class="mt-6 text-center text-slate-500 text-xs sm:text-sm space-y-1">
+        <p><i class="fa-solid fa-graduation-cap text-indigo-700 mr-1"></i> I.E. Cristo Morado &bull; Proceso Electoral 2026</p>
+        <p>Comité Electoral Escolar &bull; Garantizando democracia participativa</p>
       </div>
     </section>
 
-    <!-- ==================== VISTA 2: CABINA DIGITAL DE VOTACIÓN ==================== -->
     <section id="votingSection" class="hidden space-y-6">
-      <!-- Indicador de Votante -->
       <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <div class="p-2 bg-amber-100 rounded-lg text-amber-700">
-            <i class="fa-solid fa-user-check text-xl"></i>
-          </div>
+          <img src="insignia sin fondo.jpg" alt="Insignia" class="h-10 w-auto object-contain hidden sm:block" onerror="this.style.display='none'">
           <div>
             <p class="text-xs text-amber-800 uppercase font-bold tracking-wider">I.E. Cristo Morado &bull; Votante Identificado</p>
-            <p id="currentVoterDisplay" class="font-bold text-slate-800 text-sm sm:text-base">Código: ---</p>
+            <p id="currentVoterDisplay" class="font-bold font-mono text-slate-800 text-base">Código / DNI: ---</p>
           </div>
         </div>
-        <button onclick="showSection('welcome')" class="text-xs text-slate-500 hover:text-slate-800 underline">
-          Salir / Cancelar
+        <button onclick="showSection('welcome')" class="text-xs text-slate-500 hover:text-slate-800 underline font-semibold">
+          Cancelar / Salir
         </button>
       </div>
 
       <div class="text-center max-w-2xl mx-auto space-y-2">
-        <span class="text-xs font-bold text-brand-600 tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-200">I.E. Cristo Morado</span>
-        <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Cédula de Votación 2026</h2>
-        <p class="text-slate-600 text-sm sm:text-base">Elecciones Escolares Municipales 2026. Selecciona la lista o partido de tu preferencia haciendo clic en su casilla.</p>
+        <span class="text-xs font-bold text-indigo-800 uppercase bg-indigo-100 px-3 py-1 rounded-full border border-indigo-200">Cédula Oficial</span>
+        <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Elecciones Escolares Municipales 2026</h2>
+        <p class="text-slate-600 text-sm sm:text-base">Selecciona la lista o partido de tu preferencia para marcar tu voto.</p>
       </div>
 
-      <!-- Grilla de Listas/Candidatos -->
       <div id="candidatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Renderizado Dinámico mediante Javascript -->
+        <!-- Renderizado dinámico -->
       </div>
 
-      <!-- Acciones de Voto -->
       <div class="max-w-xl mx-auto mt-8 bg-white p-6 rounded-2xl shadow-md border border-slate-200 text-center space-y-4">
-        <p class="text-sm font-semibold text-slate-600">¿Estás listo para emitir tu voto?</p>
+        <p class="text-sm font-semibold text-slate-600">¿Tienes lista tu elección?</p>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button id="submitVoteBtn" onclick="confirmSelectedVote()" disabled 
-            class="w-full sm:w-auto flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 px-6 rounded-xl shadow transition-all duration-200 flex items-center justify-center space-x-2">
-            <i class="fa-solid fa-check-circle text-lg"></i>
-            <span>Confirmar y Emitir Voto</span>
-          </button>
-        </div>
+        <button id="submitVoteBtn" onclick="confirmSelectedVote()" disabled 
+          class="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 px-6 rounded-xl shadow transition duration-200 flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-check-circle text-lg"></i>
+          <span>Confirmar y Emitir Voto</span>
+        </button>
       </div>
     </section>
 
-    <!-- ==================== VISTA 3: AGRADECIMIENTO / FIN DE VOTO ==================== -->
     <section id="thankYouSection" class="hidden max-w-md mx-auto my-12 text-center space-y-6">
       <div class="bg-white rounded-3xl p-8 shadow-2xl border border-slate-100 space-y-4 relative overflow-hidden">
         <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-4xl shadow-inner">
           <i class="fa-solid fa-check"></i>
         </div>
 
-        <span class="inline-block text-xs font-bold text-brand-600 uppercase tracking-widest">I.E. Cristo Morado</span>
+        <span class="inline-block text-xs font-bold text-indigo-800 uppercase tracking-widest bg-indigo-50 px-2.5 py-1 rounded-full">I.E. Cristo Morado</span>
         <h2 class="font-display font-bold text-3xl text-slate-800">¡Voto Registrado!</h2>
         <p class="text-slate-600 text-sm leading-relaxed">
           Muchas gracias por ejercer tu derecho democrático en las <strong>Elecciones Escolares Municipales 2026</strong> de la <strong>I.E. Cristo Morado</strong>.
         </p>
 
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500">
-          <i class="fa-solid fa-lock text-brand-600 mr-1"></i> Tu voto ha sido cifrado y guardado de forma anónima.
+          <i class="fa-solid fa-lock text-indigo-600 mr-1"></i> Tu voto ha sido procesado de manera anónima y segura.
         </div>
 
         <div class="pt-2">
           <p class="text-xs font-semibold text-slate-400">Esta pantalla se reiniciará en:</p>
-          <span id="countdownTimer" class="font-display text-3xl font-bold text-brand-600">5</span>
+          <span id="countdownTimer" class="font-display text-3xl font-bold text-indigo-700">5</span>
         </div>
       </div>
     </section>
 
-    <!-- ==================== VISTA 4: PANEL DE CONTROL DOCENTE / ADMIN ==================== -->
     <section id="adminSection" class="hidden space-y-6">
-      <!-- Top Admin Banner -->
-      <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="bg-brand-500 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">I.E. Cristo Morado</span>
-            <h2 class="font-display text-2xl font-bold">Elecciones Escolares Municipales 2026</h2>
+      <div class="bg-indigo-950 text-white p-6 rounded-2xl shadow-lg border-b-4 border-amber-500 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <img src="insignia sin fondo.jpg" alt="Insignia" class="h-12 w-auto object-contain hidden sm:block" onerror="this.style.display='none'">
+          <div>
+            <span class="bg-amber-400 text-indigo-950 text-xs px-2.5 py-0.5 rounded-md font-bold uppercase tracking-wider">I.E. Cristo Morado</span>
+            <h2 class="font-display text-2xl font-bold text-white">Elecciones Escolares Municipales 2026</h2>
+            <p class="text-indigo-200 text-xs sm:text-sm">Escrutinio en tiempo real, gestión de listas y acta de votación.</p>
           </div>
-          <p class="text-slate-400 text-sm mt-1">Supervisión en tiempo real, gestión de listas y acta de escrutinio 2026.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <button onclick="exportToCSV()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-medium py-2 px-3 rounded-lg border border-slate-700 flex items-center space-x-1">
+          <button onclick="exportToCSV()" class="bg-indigo-800 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold py-2 px-3 rounded-lg border border-indigo-600 flex items-center space-x-1">
             <i class="fa-solid fa-file-csv text-emerald-400"></i>
-            <span>Exportar Excel/CSV</span>
+            <span>Exportar CSV</span>
           </button>
-          <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-medium py-2 px-3 rounded-lg border border-slate-700 flex items-center space-x-1">
+          <button onclick="window.print()" class="bg-indigo-800 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold py-2 px-3 rounded-lg border border-indigo-600 flex items-center space-x-1">
             <i class="fa-solid fa-print text-amber-400"></i>
-            <span>Imprimir Acta</span>
+            <span>Imprimir</span>
           </button>
-          <button onclick="showSection('welcome')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-medium py-2 px-3 rounded-lg flex items-center space-x-1">
+          <button onclick="showSection('welcome')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold py-2 px-3 rounded-lg flex items-center space-x-1">
             <i class="fa-solid fa-door-open"></i>
             <span>Modo Votación</span>
           </button>
@@ -243,7 +229,7 @@
       <!-- Métricas Clave -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-          <div class="p-3 bg-brand-100 text-brand-600 rounded-xl text-xl">
+          <div class="p-3 bg-indigo-100 text-indigo-700 rounded-xl text-xl">
             <i class="fa-solid fa-check-double"></i>
           </div>
           <div>
@@ -253,7 +239,7 @@
         </div>
 
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-          <div class="p-3 bg-emerald-100 text-emerald-600 rounded-xl text-xl">
+          <div class="p-3 bg-amber-100 text-amber-700 rounded-xl text-xl">
             <i class="fa-solid fa-trophy"></i>
           </div>
           <div>
@@ -267,17 +253,17 @@
             <i class="fa-solid fa-file-circle-minus"></i>
           </div>
           <div>
-            <p class="text-xs text-slate-500 font-semibold uppercase">Votos en Blanco/Nulos</p>
+            <p class="text-xs text-slate-500 font-semibold uppercase">Votos Blanco/Nulo</p>
             <h3 id="statBlankVotes" class="text-2xl font-bold text-slate-800">0</h3>
           </div>
         </div>
 
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-          <div class="p-3 bg-amber-100 text-amber-600 rounded-xl text-xl">
+          <div class="p-3 bg-emerald-100 text-emerald-700 rounded-xl text-xl">
             <i class="fa-solid fa-users"></i>
           </div>
           <div>
-            <p class="text-xs text-slate-500 font-semibold uppercase">Padrón / Participación</p>
+            <p class="text-xs text-slate-500 font-semibold uppercase">Participación Est.</p>
             <h3 id="statParticipation" class="text-2xl font-bold text-slate-800">0%</h3>
           </div>
         </div>
@@ -288,7 +274,7 @@
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <h3 class="font-display font-bold text-lg text-slate-800">Distribución de Votos por Lista</h3>
-            <span class="text-xs text-slate-400">Actualizado en tiempo real</span>
+            <span class="text-xs text-slate-400">Actualizado automáticamente</span>
           </div>
           <div class="relative h-64 sm:h-80 w-full">
             <canvas id="votesBarChart"></canvas>
@@ -303,11 +289,11 @@
         </div>
       </div>
 
-      <!-- Pestañas de Gestión de Candidatos y Configuración -->
+      <!-- Gestión de Candidatos -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="border-b border-slate-200 bg-slate-50/50 px-6 py-4 flex flex-wrap items-center justify-between gap-3">
           <h3 class="font-display font-bold text-lg text-slate-800">Gestión de Candidatos y Listas</h3>
-          <button onclick="openCandidateModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl shadow-sm transition-all flex items-center space-x-2">
+          <button onclick="openCandidateModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl shadow-sm transition flex items-center space-x-2">
             <i class="fa-solid fa-plus"></i>
             <span>Agregar Nueva Lista</span>
           </button>
@@ -315,31 +301,30 @@
 
         <div class="p-6">
           <div id="adminCandidatesList" class="divide-y divide-slate-100">
-            <!-- Candidatos renderizados para administración -->
+            <!-- Renderizado dinámico -->
           </div>
         </div>
       </div>
 
-      <!-- Zona de Peligro / Mantenimiento -->
+      <!-- Zona de Reinicio -->
       <div class="bg-rose-50 border border-rose-200 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h4 class="font-bold text-rose-800 text-base">Reiniciar Elecciones Escolares Municipales 2026 - I.E. Cristo Morado</h4>
-          <p class="text-xs text-rose-600 mt-1">Borrará todos los votos registrados y restablecerá los contadores a cero. Esta acción no se puede deshacer.</p>
+          <h4 class="font-bold text-rose-800 text-base">Reiniciar Elecciones Escolares Municipales 2026</h4>
+          <p class="text-xs text-rose-600 mt-1">Borrará todos los votos registrados en este dispositivo. Esta acción no se puede deshacer.</p>
         </div>
-        <button onclick="resetElectionData()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl transition-all whitespace-nowrap">
-          <i class="fa-solid fa-trash-arrow-up mr-1"></i> Resetear Conteo
+        <button onclick="resetElectionData()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl transition whitespace-nowrap">
+          <i class="fa-solid fa-trash mr-1"></i> Resetear Urna
         </button>
       </div>
     </section>
 
   </main>
 
-  <!-- MODAL: Autenticación Admin -->
   <div id="adminAuthModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
       <div class="flex items-center justify-between">
         <h3 class="font-display font-bold text-xl text-slate-800 flex items-center space-x-2">
-          <i class="fa-solid fa-lock text-brand-600"></i>
+          <i class="fa-solid fa-lock text-indigo-600"></i>
           <span>Acceso Docente / Comité</span>
         </h3>
         <button onclick="closeAdminAuthModal()" class="text-slate-400 hover:text-slate-600">
@@ -347,22 +332,21 @@
         </button>
       </div>
 
-      <p class="text-slate-600 text-sm">Ingresa la clave de administración (Clave por defecto: <code class="bg-slate-100 px-1.5 py-0.5 rounded text-brand-700 font-bold">admin123</code>)</p>
+      <p class="text-slate-600 text-sm">Ingresa la clave de administración (Clave por defecto: <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-700 font-bold">admin123</code>)</p>
 
       <form onsubmit="handleAdminAuth(event)" class="space-y-4">
         <div>
           <input type="password" id="adminPassword" required placeholder="Contraseña de administrador"
-            class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-medium">
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 text-slate-800 font-medium">
         </div>
 
-        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl shadow transition-all">
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow transition">
           Ingresar al Panel
         </button>
       </form>
     </div>
   </div>
 
-  <!-- MODAL: Agregar/Editar Candidato -->
   <div id="candidateModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b pb-3">
@@ -377,91 +361,82 @@
 
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre del Partido / Lista *</label>
-          <input type="text" id="candPartyName" required placeholder="Ej. Juventud Progresista" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500">
+          <input type="text" id="candPartyName" required placeholder="Ej. Juventud Moradina" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Candidato a Alcalde(sa) *</label>
-            <input type="text" id="candMayor" required placeholder="Ej. Ana Torres" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500">
+            <input type="text" id="candMayor" required placeholder="Ej. Camila Torres" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Color Distintivo (Hex)</label>
-            <input type="color" id="candColor" value="#0284c7" class="w-full h-10 p-1 bg-slate-50 border border-slate-300 rounded-xl cursor-pointer">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Color Distintivo</label>
+            <input type="color" id="candColor" value="#4f46e5" class="w-full h-10 p-1 bg-slate-50 border border-slate-300 rounded-xl cursor-pointer">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">Propuesta Principal</label>
-          <textarea id="candProposal" rows="2" placeholder="Resumen de propuestas para el colegio..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500"></textarea>
+          <textarea id="candProposal" rows="2" placeholder="Resumen de propuestas para el colegio..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500"></textarea>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Icono / Logo (FontAwesome Class)</label>
-          <input type="text" id="candIcon" placeholder="fa-rocket (o fa-lightbulb, fa-heart, etc.)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Icono FontAwesome (Clase)</label>
+          <input type="text" id="candIcon" placeholder="fa-rocket (o fa-seedling, fa-book, etc.)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500">
         </div>
 
         <div class="flex items-center justify-end space-x-3 pt-2 border-t">
           <button type="button" onclick="closeCandidateModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800">Cancelar</button>
-          <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-5 py-2 rounded-xl text-sm shadow">Guardar Lista</button>
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-xl text-sm shadow">Guardar Lista</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-slate-200/60 border-t border-slate-300 py-4 mt-auto no-print">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-      <p>I.E. Cristo Morado &bull; Sistema Digital de Votación &bull; Elecciones Escolares Municipales 2026 &bull; Fomentando la Democracia Participativa</p>
-    </div>
+  <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto no-print">
+    <p>© 2026 I.E. Cristo Morado &bull; Elecciones Escolares Municipales 2026 &bull; Sistema de Votación Digital</p>
   </footer>
 
   <script>
-    // ==========================================
-    // ESTADO Y CONFIGURACIÓN DE LA APLICACIÓN
-    // ==========================================
     const DEFAULT_CANDIDATES = [
       {
         id: 'lista-1',
-        partyName: 'Fuerza Estudiantil',
-        mayor: 'Valeria Mendoza',
-        proposal: 'Mejorar las áreas deportivas, talleres de robótica y promover receso ecológico.',
-        color: '#2563eb',
-        icon: 'fa-rocket'
+        partyName: 'Juventud Moradina',
+        mayor: 'Camila Torres',
+        proposal: 'Implementación de biohuerto escolar y talleres de innovación digital.',
+        color: '#4f46e5',
+        icon: 'fa-seedling'
       },
       {
         id: 'lista-2',
-        partyName: 'Unión Innovadora',
-        mayor: 'Carlos Ruiz',
-        proposal: 'Creación de biblioteca digital, torneos interclases y buzón de sugerencias.',
-        color: '#d97706',
-        icon: 'fa-lightbulb'
+        partyName: 'Fuerza Estudiantil',
+        mayor: 'Mateo Mendoza',
+        proposal: 'Mejora de equipamiento deportivo y torneos interclases.',
+        color: '#e11d48',
+        icon: 'fa-volleyball-ball'
       },
       {
         id: 'lista-3',
-        partyName: 'Acción Escolar',
-        mayor: 'Sofía Castro',
-        proposal: 'Feriado de talentos, implementación de áreas verdes e integración escolar.',
+        partyName: 'Unión Cristo Morado',
+        mayor: 'Sofía Vargas',
+        proposal: 'Remodelación de la biblioteca e integración entre grados.',
         color: '#059669',
-        icon: 'fa-seedling'
+        icon: 'fa-book-reader'
       }
     ];
 
     let state = {
       candidates: [],
-      votedIds: [], // Lista de DNIs/códigos que ya votaron
-      votes: {}, // Contado de votos: { 'lista-1': 12, 'blank': 2, 'null': 1 }
+      votedIds: [],
+      votes: {},
       currentVoter: null,
       selectedCandidateId: null,
-      totalRegisteredPadron: 250 // Total aproximado de estudiantes en el colegio
+      totalPadron: 400
     };
 
     let barChartInstance = null;
     let pieChartInstance = null;
 
-    // ==========================================
-    // INICIALIZACIÓN
-    // ==========================================
     window.onload = function() {
       loadStorageData();
       renderVotingCandidates();
@@ -469,64 +444,82 @@
       initCharts();
     };
 
-    function loadStorageData() {
-      const storedCandidates = localStorage.getItem('votaescolar_candidates');
-      const storedVotedIds = localStorage.getItem('votaescolar_voted_ids');
-      const storedVotes = localStorage.getItem('votaescolar_votes');
-
-      state.candidates = storedCandidates ? JSON.parse(storedCandidates) : DEFAULT_CANDIDATES;
-      state.votedIds = storedVotedIds ? JSON.parse(storedVotedIds) : [];
-      
-      if (storedVotes) {
-        state.votes = JSON.parse(storedVotes);
-      } else {
-        // Inicializar votos en cero
-        state.votes = { 'blank': 0, 'null': 0 };
-        state.candidates.forEach(c => state.votes[c.id] = 0);
+    function handleImgError(imgElement, iconType) {
+      imgElement.onerror = null;
+      if (imgElement.parentElement) {
+        imgElement.parentElement.innerHTML = '<i class="fa-solid fa-' + iconType + ' text-indigo-900 text-xl font-bold"></i>';
       }
+    }
 
-      // Guardar por si era la primera vez
-      saveToStorage();
+    function loadStorageData() {
+      try {
+        const storedCandidates = localStorage.getItem('vota_cm_candidates');
+        const storedVotedIds = localStorage.getItem('vota_cm_voted_ids');
+        const storedVotes = localStorage.getItem('vota_cm_votes');
+
+        state.candidates = storedCandidates ? JSON.parse(storedCandidates) : DEFAULT_CANDIDATES;
+        state.votedIds = storedVotedIds ? JSON.parse(storedVotedIds) : [];
+        
+        if (storedVotes) {
+          state.votes = JSON.parse(storedVotes);
+        } else {
+          state.votes = { 'blank': 0 };
+          state.candidates.forEach(c => state.votes[c.id] = 0);
+        }
+
+        saveToStorage();
+      } catch (e) {
+        console.warn('Error al cargar datos desde localStorage:', e);
+      }
     }
 
     function saveToStorage() {
-      localStorage.setItem('votaescolar_candidates', JSON.stringify(state.candidates));
-      localStorage.setItem('votaescolar_voted_ids', JSON.stringify(state.votedIds));
-      localStorage.setItem('votaescolar_votes', JSON.stringify(state.votes));
+      try {
+        localStorage.setItem('vota_cm_candidates', JSON.stringify(state.candidates));
+        localStorage.setItem('vota_cm_voted_ids', JSON.stringify(state.votedIds));
+        localStorage.setItem('vota_cm_votes', JSON.stringify(state.votes));
+      } catch (e) {
+        console.warn('Error al guardar en localStorage:', e);
+      }
     }
 
-    // ==========================================
-    // NAVEGACIÓN Y VISTAS
-    // ==========================================
     function showSection(sectionId) {
-      const sections = ['welcomeSection', 'votingSection', 'thankYouSection', 'adminSection'];
-      sections.forEach(id => {
+      ['welcomeSection', 'votingSection', 'thankYouSection', 'adminSection'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
       });
 
       const target = document.getElementById(sectionId + 'Section');
-      if (target) {
-        target.classList.remove('hidden');
-      }
+      if (target) target.classList.remove('hidden');
 
       if (sectionId === 'admin') {
         updateAdminDashboard();
       }
     }
 
-    // ==========================================
-    // VISTA VOTANTE: LOGICA DE VOTACIÓN
-    // ==========================================
+    function showGlobalError(msg) {
+      const alertBox = document.getElementById('globalAlert');
+      const alertText = document.getElementById('globalAlertText');
+      if (alertBox && alertText) {
+        alertText.textContent = msg;
+        alertBox.classList.remove('hidden');
+        setTimeout(() => alertBox.classList.add('hidden'), 4000);
+      }
+    }
+
     function handleVoterLogin(e) {
       e.preventDefault();
       const input = document.getElementById('voterId');
-      const voterId = input.value.trim().toUpperCase();
+      const voterId = input ? input.value.trim().toUpperCase() : '';
 
-      if (!voterId) return;
+      if (!voterId || voterId.length < 3) {
+        showGlobalError('Por favor, ingresa un DNI o código escolar válido.');
+        return;
+      }
 
       if (state.votedIds.includes(voterId)) {
-        alert('Este DNI o Código de estudiante ya ha registrado su voto anteriormente.');
+        showGlobalError('Este DNI o código ya registró su voto anteriormente en las Elecciones 2026.');
+        if (input) input.value = '';
         return;
       }
 
@@ -537,20 +530,19 @@
       
       renderVotingCandidates();
       showSection('voting');
-      input.value = '';
+      if (input) input.value = '';
     }
 
     function selectCandidate(candidateId) {
       state.selectedCandidateId = candidateId;
       
-      // Actualizar selección visual
       document.querySelectorAll('.candidate-card').forEach(card => {
-        card.classList.remove('selected', 'ring-4', 'ring-brand-500');
+        card.classList.remove('selected', 'ring-4', 'ring-indigo-500');
       });
 
       const selectedCard = document.getElementById(`card-${candidateId}`);
       if (selectedCard) {
-        selectedCard.classList.add('selected', 'ring-4', 'ring-brand-500');
+        selectedCard.classList.add('selected', 'ring-4', 'ring-indigo-500');
       }
 
       updateVoteButtonState();
@@ -558,6 +550,7 @@
 
     function updateVoteButtonState() {
       const btn = document.getElementById('submitVoteBtn');
+      if (!btn) return;
       if (state.selectedCandidateId) {
         btn.removeAttribute('disabled');
       } else {
@@ -568,27 +561,22 @@
     function confirmSelectedVote() {
       if (!state.selectedCandidateId || !state.currentVoter) return;
 
-      if (!confirm('¿Estás seguro de emitir tu voto? Una vez confirmado no podrás cambiarlo.')) {
+      if (!confirm('¿Estás seguro de emitir tu voto? Una vez confirmado no se podrá cambiar.')) {
         return;
       }
 
-      // Registrar voto
       const candId = state.selectedCandidateId;
       state.votes[candId] = (state.votes[candId] || 0) + 1;
       state.votedIds.push(state.currentVoter);
 
       saveToStorage();
 
-      // Efecto de Confeti para una experiencia alegre
       try {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        }
       } catch (err) {}
 
-      // Mostrar pantalla de gracias
       showSection('thankYou');
       startThankYouCountdown();
     }
@@ -596,11 +584,11 @@
     function startThankYouCountdown() {
       let seconds = 5;
       const display = document.getElementById('countdownTimer');
-      display.textContent = seconds;
+      if (display) display.textContent = seconds;
 
       const interval = setInterval(() => {
         seconds--;
-        display.textContent = seconds;
+        if (display) display.textContent = seconds;
         if (seconds <= 0) {
           clearInterval(interval);
           state.currentVoter = null;
@@ -610,14 +598,11 @@
       }, 1000);
     }
 
-    // ==========================================
-    // RENDERIZADO DE CANDIDATOS
-    // ==========================================
     function renderVotingCandidates() {
       const container = document.getElementById('candidatesGrid');
+      if (!container) return;
       container.innerHTML = '';
 
-      // Mostrar listas registradas
       state.candidates.forEach(cand => {
         const card = document.createElement('div');
         card.id = `card-${cand.id}`;
@@ -649,7 +634,7 @@
 
           <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between">
             <span class="text-xs font-semibold text-slate-500">Haz clic para elegir</span>
-            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-white check-icon">
+            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-white">
               <i class="fa-solid fa-check text-xs opacity-0"></i>
             </div>
           </div>
@@ -657,7 +642,6 @@
         container.appendChild(card);
       });
 
-      // Opción: Voto en Blanco / Nulo
       const blankCard = document.createElement('div');
       blankCard.id = `card-blank`;
       blankCard.onclick = () => selectCandidate('blank');
@@ -670,13 +654,13 @@
           </div>
           <div>
             <h3 class="font-display font-bold text-lg text-slate-700">Voto en Blanco / Nulo</h3>
-            <p class="text-xs text-slate-500 mt-1">Si prefieres no elegir ninguna de las listas presentadas.</p>
+            <p class="text-xs text-slate-500 mt-1">Marca esta casilla si prefieres no votar por ninguna lista.</p>
           </div>
         </div>
 
         <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
           <span class="text-xs font-semibold text-slate-500">Marcar esta opción</span>
-          <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-white check-icon">
+          <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-white">
             <i class="fa-solid fa-check text-xs opacity-0"></i>
           </div>
         </div>
@@ -684,9 +668,6 @@
       container.appendChild(blankCard);
     }
 
-    // ==========================================
-    // PANEL ADMINISTRATIVO / DASHBOARD
-    // ==========================================
     function openAdminAuthModal() {
       document.getElementById('adminAuthModal').classList.remove('hidden');
     }
@@ -708,14 +689,12 @@
     }
 
     function updateAdminDashboard() {
-      // Calcular Totales
       const totalVotes = Object.values(state.votes).reduce((a, b) => a + b, 0);
       const blankVotes = state.votes['blank'] || 0;
 
       document.getElementById('statTotalVotes').textContent = totalVotes;
       document.getElementById('statBlankVotes').textContent = blankVotes;
 
-      // Calcular Liderazgo
       let leadingName = '---';
       let maxVotes = -1;
 
@@ -729,17 +708,19 @@
 
       document.getElementById('statLeadingCandidate').textContent = leadingName;
 
-      // Participación
-      const percent = Math.min(100, Math.round((totalVotes / state.totalRegisteredPadron) * 100));
+      const percent = Math.min(100, Math.round((totalVotes / state.totalPadron) * 100));
       document.getElementById('statParticipation').textContent = `${percent}%`;
 
-      // Actualizar Gráficos
       updateCharts();
       renderAdminCandidates();
     }
 
     function initCharts() {
-      const ctxBar = document.getElementById('votesBarChart').getContext('2d');
+      const barCanvas = document.getElementById('votesBarChart');
+      const pieCanvas = document.getElementById('votesPieChart');
+      if (!barCanvas || !pieCanvas) return;
+
+      const ctxBar = barCanvas.getContext('2d');
       barChartInstance = new Chart(ctxBar, {
         type: 'bar',
         data: { labels: [], datasets: [{ label: 'Votos', data: [], backgroundColor: [] }] },
@@ -751,7 +732,7 @@
         }
       });
 
-      const ctxPie = document.getElementById('votesPieChart').getContext('2d');
+      const ctxPie = pieCanvas.getContext('2d');
       pieChartInstance = new Chart(ctxPie, {
         type: 'doughnut',
         data: { labels: [], datasets: [{ data: [], backgroundColor: [] }] },
@@ -770,13 +751,11 @@
       const data = state.candidates.map(c => state.votes[c.id] || 0).concat([state.votes['blank'] || 0]);
       const colors = state.candidates.map(c => c.color).concat(['#94a3b8']);
 
-      // Bar Chart
       barChartInstance.data.labels = labels;
       barChartInstance.data.datasets[0].data = data;
       barChartInstance.data.datasets[0].backgroundColor = colors;
       barChartInstance.update();
 
-      // Pie Chart
       pieChartInstance.data.labels = labels;
       pieChartInstance.data.datasets[0].data = data;
       pieChartInstance.data.datasets[0].backgroundColor = colors;
@@ -785,6 +764,7 @@
 
     function renderAdminCandidates() {
       const container = document.getElementById('adminCandidatesList');
+      if (!container) return;
       container.innerHTML = '';
 
       state.candidates.forEach(cand => {
@@ -812,7 +792,7 @@
             </div>
 
             <div class="flex items-center space-x-2">
-              <button onclick="editCandidate('${cand.id}')" class="p-2 text-slate-400 hover:text-brand-600 rounded-lg hover:bg-slate-100">
+              <button onclick="editCandidate('${cand.id}')" class="p-2 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100">
                 <i class="fa-solid fa-pen"></i>
               </button>
               <button onclick="deleteCandidate('${cand.id}')" class="p-2 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-slate-100">
@@ -825,9 +805,6 @@
       });
     }
 
-    // ==========================================
-    // ABM CANDIDATOS
-    // ==========================================
     function openCandidateModal(candId = null) {
       document.getElementById('candidateForm').reset();
       document.getElementById('candId').value = '';
@@ -839,7 +816,7 @@
           document.getElementById('candPartyName').value = cand.partyName;
           document.getElementById('candMayor').value = cand.mayor;
           document.getElementById('candProposal').value = cand.proposal || '';
-          document.getElementById('candColor').value = cand.color || '#0284c7';
+          document.getElementById('candColor').value = cand.color || '#4f46e5';
           document.getElementById('candIcon').value = cand.icon || 'fa-rocket';
           document.getElementById('candidateModalTitle').textContent = 'Editar Lista';
         }
@@ -866,13 +843,11 @@
       if (!icon.startsWith('fa-')) icon = 'fa-rocket';
 
       if (id) {
-        // Modificar
         const index = state.candidates.findIndex(c => c.id === id);
         if (index !== -1) {
           state.candidates[index] = { id, partyName, mayor, proposal, color, icon };
         }
       } else {
-        // Crear
         const newId = 'lista-' + Date.now();
         state.candidates.push({ id: newId, partyName, mayor, proposal, color, icon });
         state.votes[newId] = 0;
@@ -889,7 +864,7 @@
     }
 
     function deleteCandidate(id) {
-      if (confirm('¿Eliminar esta lista candidata? Se perderán sus datos asociados.')) {
+      if (confirm('¿Eliminar esta lista candidata?')) {
         state.candidates = state.candidates.filter(c => c.id !== id);
         delete state.votes[id];
         saveToStorage();
@@ -898,17 +873,41 @@
       }
     }
 
-    // ==========================================
-    // MANTENIMIENTO Y EXPORTACIÓN
-    // ==========================================
     function resetElectionData() {
-      if (confirm('ATENCIÓN: Se reiniciarán todos los votos registrados de la I.E. Cristo Morado para las Elecciones Escolares Municipales 2026. ¿Deseas continuar?')) {
+      if (confirm('ATENCIÓN: Se borra todos los votos registrados de la I.E. Cristo Morado para las Elecciones 2026. ¿Continuar?')) {
         state.votedIds = [];
-        state.votes = { 'blank': 0, 'null': 0 };
+        state.votes = { 'blank': 0 };
         state.candidates.forEach(c => state.votes[c.id] = 0);
 
         saveToStorage();
         updateAdminDashboard();
-        alert('Los conteos de la I.E. Cristo Morado han sido reiniciados a cero.');
+        alert('Los votos han sido reseteados.');
       }
     }
+
+    function exportToCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "I.E. Cristo Morado - Elecciones Escolares Municipales 2026 - Acta de Resultados\n";
+      csvContent += "Lista / Opcion,Candidato Alcalde,Total Votos\n";
+
+      state.candidates.forEach(c => {
+        csvContent += `"${c.partyName}","${c.mayor}",${state.votes[c.id] || 0}\n`;
+      });
+      csvContent += `"Votos en Blanco / Nulo","N/A",${state.votes['blank'] || 0}\n`;
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `IE_Cristo_Morado_Acta_Escrutinio_2026.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
